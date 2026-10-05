@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For My Love 💖</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="gameArea">
+            <h1 id="question">Do you forgive me? 💔</h1>
+            <div class="buttons-wrapper">
+                <div class="btn-row" id="btnRow">
+                    <button class="yes" id="yesBtn">Yes 💖</button>
+                    <button class="no" id="noBtn">No 😢</button>
+                </div>
+            </div>
+            <p class="progress" id="progress">Question 1 of 5</p>
+        </div>
+
+        <div class="final" id="finalArea">
+            <h2>You made me the happiest! 🥰</h2>
+            <p>
+                Thank you for giving me another chance.<br>
+                I promise to be better, to listen more, and to make you smile every single day.<br>
+                You mean everything to me. I love you so much! ❤️
+            </p>
+            <div class="hearts">💕💗💖💘💝</div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "Do you forgive me? 💔",
+            "Will you still love me? 🥺",
+            "Can I make it up to you? 🥹",
+            "Do I get another chance? 🙏",
+            "Am I still your favorite person? 💕"
+        ];
+
+        let current = 0;
+        const noBtn = document.getElementById('noBtn');
+        const questionEl = document.getElementById('question');
+        const progressEl = document.getElementById('progress');
+        const gameArea = document.getElementById('gameArea');
+        const finalArea = document.getElementById('finalArea');
+
+        function moveNo() {
+            const w = document.querySelector('.buttons-wrapper').getBoundingClientRect();
+            const bw = noBtn.offsetWidth || 100;
+            const bh = noBtn.offsetHeight || 50;
+            const mx = w.width - bw - 20;
+            const my = w.height - bh - 20;
+            const rx = Math.max(0, Math.random() * mx);
+            const ry = Math.max(0, Math.random() * my);
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = rx + 'px';
+            noBtn.style.top = ry + 'px';
+        }
+
+        function resetNo() {
+            noBtn.style.position = 'relative';
+            noBtn.style.left = '';
+            noBtn.style.top = '';
+        }
+
+        function nextQuestion() {
+            current++;
+            if (current >= questions.length) {
+                gameArea.style.display = 'none';
+                finalArea.classList.add('show');
+                return;
+            }
+            questionEl.textContent = questions[current];
+            progressEl.textContent = `Question ${current + 1} of 5`;
+            resetNo();
+        }
+
+        noBtn.addEventListener('touchstart', e => { e.preventDefault(); moveNo(); });
+        noBtn.addEventListener('mouseover', moveNo);
+        noBtn.addEventListener('click', moveNo);
+
+        document.getElementById('yesBtn').addEventListener('click', nextQuestion);
+        document.getElementById('yesBtn').addEventListener('touchstart', e => { e.preventDefault(); nextQuestion(); });
+    </script>
+</body>
+</html>
